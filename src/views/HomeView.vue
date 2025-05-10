@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    每日一览
+    <ul>
+      <li>在途货物列表</li>
+      <li>产品待审核列表</li>
+      <li>未结算数据</li>
+    </ul>
   </main>
 </template>

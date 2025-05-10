@@ -23,7 +23,7 @@
     </el-table>
     <el-pagination :current-page="page" :page-size="pageSize" :total="total" layout="prev, pager, next"
       @current-change="handlePageChange" />
-    <el-drawer v-model="dialog" title="编辑产品" :before-close="handleClose" class="demo-drawer">
+    <el-drawer v-model="dialog" title="编辑产品" class="demo-drawer">
       <div class="demo-drawer__content">
         <el-form :model="form">
           <el-form-item label="fn_sku" :label-width="formLabelWidth">
@@ -52,10 +52,8 @@
           </el-form-item>
         </el-form>
         <div class="demo-drawer__footer">
-          <el-button @click="cancelForm">Cancel</el-button>
-          <el-button type="primary" :loading="loading" @click="onClick">
-            {{ loading ? 'Submitting ...' : 'Submit' }}
-          </el-button>
+          <el-button @click="cancelForm">取消</el-button>
+          <el-button type="primary" :loading="loading" @click="onClick">确定</el-button>
         </div>
       </div>
     </el-drawer>
@@ -65,7 +63,7 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue'
 import { fetchProducts, saveProducts } from '@/api/index' // 注意路径是否正确
-import { ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const tableData = ref([])
 const page = ref(1)
@@ -117,22 +115,16 @@ const handleEdit = (row) => {
   }
 }
 
-const handleClose = (done) => {
-  if (loading.value) {
-    return
-  }
-  ElMessageBox.confirm('Do you want to submit?')
-    .then(() => {
-      onClick();
-    })
-}
-
 const onClick = async () => {
   loading.value = true
-  await saveProducts(form)
+  try {
+    await saveProducts(form)
+    dialog.value = false
+    fetchData();
+  } catch (err) {
+    ElMessage.error(err)
+  }
   loading.value = false
-  dialog.value = false
-  fetchData();
 }
 
 const cancelForm = () => {

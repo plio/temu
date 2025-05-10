@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
   <header>
     <nav>
       <RouterLink to="/">首页</RouterLink>
-      <RouterLink to="/about">产品管理</RouterLink>
+      <RouterLink to="/products">产品管理</RouterLink>
     </nav>
   </header>
 
